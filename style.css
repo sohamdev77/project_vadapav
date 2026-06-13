@@ -1,35 +1,105 @@
-/* ==========================================================================
-   CSS Variables & Theme Setup
-   ========================================================================== */
+/* style.css - Premium Dark Luxury Aesthetic | Mobile-First | Highly Maintainable | WCAG Compliant */
+
+/* --- CSS VARIABLES for maintainability and theme control --- */
 :root {
-    --bg-color: #050608;
-    --surface-color: rgba(20, 24, 30, 0.6);
-    --text-primary: #f0f2f5;
-    --text-secondary: #a8b0c0;
-    --accent-color: #d4af37; /* Golden hue matching the palace and sunset */
-    --accent-glow: rgba(212, 175, 55, 0.25);
+    /* Color Palette - Premium Dark & Accent */
+    --color-bg: #0A0A0C; /* Deep black-charcoal */
+    --color-bg-alt: #101014; /* Slightly lighter charcoal for alternate sections */
+    --color-surface: #141418; /* Standard section surface */
+    --color-text-primary: #EAEAEA; /* Crisp white for primary text */
+    --color-text-secondary: #B0B0C0; /* Muted grey-blue for secondary text */
+    --color-accent: #CFA66A; /* Warm, golden amber for primary accent */
+    --color-accent-alt: #9A7C50; /* Desaturated gold for secondary accent */
+    
+    /* Glassmorphism Styles */
+    --glass-bg: rgba(20, 20, 24, 0.45);
     --glass-border: rgba(255, 255, 255, 0.08);
-    --font-heading: 'Cinzel', serif;
-    --font-body: 'Inter', sans-serif;
-    --transition-standard: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --glass-blur: blur(20px);
+    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    /* Functional Colors */
+    --color-link: var(--color-accent);
+    --color-link-hover: var(--color-accent-alt);
+    
+    /* Gradients */
+    --gradient-hero-bg: radial-gradient(circle at 70% 30%, #1A1A20 0%, var(--color-bg) 60%);
+    --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-alt) 100%);
+    
+    /* Typography */
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Cinzel', serif; /* Optional heading font for contrast, needs to be linked in HTML or standard to serif */
+    
+    /* Contrast Ratios (for WCAG Compliance checks) */
+    /* text-primary (#EAEAEA) on bg (#0A0A0C): 16:1 (PASS AAA) */
+    /* text-secondary (#B0B0C0) on bg (#0A0A0C): 10:1 (PASS AAA) */
+    /* accent (#CFA66A) on bg (#0A0A0C): 7.6:1 (PASS AA Large text) */
+    /* accent (#CFA66A) on text-primary (#EAEAEA): 1.6:1 (FAIL for small text, but used for accent, not main text) */
+
+    /* Spacing & Layout */
+    --spacing-container: 1rem;
+    --spacing-inner: 2rem;
+    
+    /* Performance & Animation */
+    --transition-standard: 0.3s ease;
 }
 
-/* ==========================================================================
-   Reset & Base Styles
-   ========================================================================== */
+/* --- Base & Reset --- */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+html {
+    font-size: 100%; /* 16px default */
+    scroll-behavior: smooth; /* Native smooth scroll for smooth-scroll links */
+}
+
 body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Mobile-First Layout & Responsiveness --- */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: var(--spacing-container);
+    padding-right: var(--spacing-container);
+}
+
+/* --- Premium Typography & Text Styles --- */
+h1, h2, h3 {
+    font-family: var(--font-heading), var(--font-primary);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-accent);
+}
+
+p, ul, ol {
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+}
+
+strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
 }
 
 .sr-only {
@@ -40,223 +110,288 @@ body {
     margin: -1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+    border: 0;
 }
 
-/* Accessibility: Skip Link */
+/* --- Skip Link for Accessibility --- */
 .skip-link {
     position: absolute;
     top: -50px;
-    left: 0;
-    background: var(--accent-color);
-    color: #000;
-    padding: 12px 24px;
+    left: 1rem;
+    background: var(--color-bg);
+    color: var(--color-accent);
+    padding: 0.5rem 1rem;
     z-index: 1000;
-    transition: top 0.2s ease;
+    transition: top var(--transition-standard);
     text-decoration: none;
-    font-weight: 600;
-    border-bottom-right-radius: 4px;
+    border-radius: 4px;
 }
 
 .skip-link:focus {
-    top: 0;
+    top: 1rem;
 }
 
-/* Focus States for Accessibility */
-:focus-visible {
-    outline: 2px dashed var(--accent-color);
-    outline-offset: 6px;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* ==========================================================================
-   Hero Section
-   ========================================================================== */
-.hero {
-    min-height: 45vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 6rem 1rem 3rem;
-    background: radial-gradient(circle at 50% 0%, var(--accent-glow) 0%, transparent 70%);
-}
-
-.main-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--accent-color);
-    margin-bottom: 1.2rem;
-    text-shadow: 0 0 30px var(--accent-glow);
-}
-
-.subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
-    color: var(--text-secondary);
-    max-width: 750px;
-    margin: 0 auto;
-    font-weight: 300;
-}
-
-/* ==========================================================================
-   Gallery / Artwork Section
-   ========================================================================== */
-.gallery-section {
-    padding: 2rem 0 6rem;
-}
-
-.spotlight-wrapper {
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--glass-border);
-    cursor: crosshair;
-    background-color: #0a0a0c;
-    transition: transform var(--transition-standard), box-shadow var(--transition-standard);
-    transform: translateZ(0); /* Hardware acceleration */
-}
-
-.spotlight-wrapper:hover, .spotlight-wrapper:focus-within {
-    transform: translateY(-8px);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(212, 175, 55, 0.4);
-}
-
-.exhibition-image {
-    width: 100%;
+/* --- Universal Component Styles --- */
+.img-fluid {
+    max-width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;
-    aspect-ratio: 16/9;
 }
 
-/* Interactive Spotlight via CSS Variables updated in JS */
-.spotlight-overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(5, 6, 8, 0.85) 100%);
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform var(--transition-standard), background var(--transition-standard), box-shadow var(--transition-standard);
+    border: none;
+}
+
+.btn-primary {
+    background: var(--gradient-accent);
+    color: #000; /* Dark text for accent background */
+    box-shadow: 0 4px 10px rgba(207, 166, 106, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(207, 166, 106, 0.5);
+}
+
+.btn-secondary {
+    background: var(--glass-bg);
+    color: var(--color-accent);
+    border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+    background: rgba(207, 166, 106, 0.1);
+}
+
+/* --- SECTION: Layout, Glassmorphism, Fade-in, Reveal --- */
+section {
+    padding: 4rem 0;
+}
+
+section:nth-of-type(even) {
+    background-color: var(--color-bg-alt);
+}
+
+.glassmorphism {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    padding: var(--spacing-inner);
+}
+
+/* --- Animations & Reveal --- */
+.fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
     opacity: 0;
-    transition: opacity 0.5s ease;
 }
 
-.spotlight-wrapper:hover .spotlight-overlay,
-.spotlight-wrapper:focus .spotlight-overlay {
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) translateZ(0); /* GPU accelerated */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0); /* GPU accelerated */
+    }
+}
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0); /* GPU accelerated */
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    will-change: opacity, transform; /* Hint for browser optimization */
+}
+
+.reveal-on-scroll.revealed {
     opacity: 1;
+    transform: translateY(0) translateZ(0); /* GPU accelerated */
 }
 
-.caption {
+/* --- SECTION: Header & Nav --- */
+header nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+header nav ul li {
+    margin: 0 1rem;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color var(--transition-standard);
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus {
+    color: var(--color-accent);
+}
+
+/* --- SECTION: Hero --- */
+.hero {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background-image: var(--gradient-hero-bg);
     text-align: center;
-    margin-top: 2rem;
-    color: var(--text-secondary);
-    font-style: italic;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
 }
 
-/* ==========================================================================
-   Inspiration / Glassmorphism Cards
-   ========================================================================== */
-.inspiration-section {
-    padding: 4rem 0 8rem;
-    position: relative;
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    margin-bottom: 0.5rem;
 }
 
-.section-title {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
+.hero p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.challenge-presentation {
+    margin-top: 3rem;
+}
+
+/* --- SECTION: Gallery --- */
+.gallery-section {
+    padding-bottom: 2rem;
+}
+
+.gallery-wrapper {
     text-align: center;
-    margin-bottom: 4rem;
-    color: #fff;
 }
 
-.card-grid {
+.image-spotlight-container {
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    margin-bottom: 1.5rem;
+    transition: transform var(--transition-standard);
+}
+
+.image-spotlight-container:hover {
+    transform: scale(1.02) translateZ(0); /* GPU accelerated */
+}
+
+.spotlight-image {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.spotlight-active .spotlight-image {
+    /* Handled by JS for specific spotlight positioning, but default state */
+}
+
+.gallery-caption {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+}
+
+/* --- SECTION: Clues & Feature Cards --- */
+.clues-grid h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.clue-card-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: 1fr;
     gap: 2rem;
 }
 
-.glass-card {
-    background: var(--surface-color);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    transition: transform var(--transition-standard), border-color var(--transition-standard);
+@media (min-width: 768px) {
+    .clue-card-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.glass-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(212, 175, 55, 0.4);
+@media (min-width: 1024px) {
+    .clue-card-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
-.glass-card h3 {
-    font-family: var(--font-heading);
-    color: var(--accent-color);
-    margin-bottom: 1.2rem;
-    font-size: 1.3rem;
-    letter-spacing: 0.5px;
+.clue-card {
+    transition: transform var(--transition-standard);
 }
 
-.glass-card p {
-    color: var(--text-primary);
-    font-size: 0.95rem;
-    line-height: 1.7;
-    font-weight: 300;
+.clue-card:hover {
+    transform: translateY(-5px) translateZ(0); /* GPU accelerated */
 }
 
-/* ==========================================================================
-   Footer
-   ========================================================================== */
-.site-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+.clue-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* --- SECTION: Storytelling --- */
+.storytelling-content {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- SECTION: Accessibility & Technical --- */
+.accessibility-content, .technical-content {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.accessibility-content ul, .technical-content ul {
+    list-style-type: none;
+}
+
+.accessibility-content li::before, .technical-content li::before {
+    content: "✓ "; /* Use text fallback and not named color */
+    font-weight: bold;
+}
+
+.technical-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* --- SECTION: Deployment & Testing --- */
+.deployment-content ol {
+    margin-left: 2rem;
+}
+
+/* --- SECTION: Footer --- */
+footer {
     padding: 3rem 0;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--glass-border);
     text-align: center;
-    background-color: #030304;
 }
 
-.footer-text {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
+.footer-content p {
+    margin-bottom: 0.5rem;
 }
 
-/* ==========================================================================
-   Animations
-   ========================================================================== */
-.fade-in {
-    animation: fadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
-@media (max-width: 768px) {
-    .section-title { font-size: 2rem; }
-    .hero { min-height: 35vh; padding: 4rem 1rem 2rem; }
-    .glass-card { padding: 2rem 1.5rem; }
+/* --- Final Responsive Checks --- */
+@media (max-width: 600px) {
+    --spacing-container: 1.5rem;
+    --spacing-inner: 1.5rem;
 }
